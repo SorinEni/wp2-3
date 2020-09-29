@@ -1,8 +1,9 @@
 <?php 
  $submit = filter_input(INPUT_POST, 'submit');
- $euro = filter_input(INPUT_POST, 'euro');
+ $amount = filter_input(INPUT_POST, 'amount');
  $switch = filter_input(INPUT_POST, 'currency');
-
+ define('EUR_CZK', 27);
+ 
  ?>
  
 <!DOCTYPE html>
@@ -15,22 +16,21 @@
 <body>
     <h1>Převod</h1>
     
-<?php if ($switch==2) {?>
-    <?php $euro = $euro * 27; ?>
+<?php if ($switch=="czk_eur") {?>
+    <?php $final = $amount * EUR_CZK; ?>
     <?php
 } else {?>
-    <?php $euro = $euro / 27; ?> <?php
+    <?php $final = $amount / EUR_CZK; ?> <?php
 } ?> 
     <?php 
     if (isset($submit)) {?>
-     
-     <br>CZK:<?=$euro?>
+     <br><?=$final?>
 <?php
 } else {?> 
     <form action="wp2-3.php" method="post">
-    <input type="text" name="euro" id="euro" > €
-    <br>CZK -> €<input type="radio" name="currency" id="czke" value="1" >
-    <br>€ -> CZK<input type="radio" name="currency" id="eczk" value="2" > 
+    <input type="text" name="amount" id="amount" > 
+    <br>CZK -> €<input type="radio" name="currency" id="czke" value="eur_czk" >
+    <br>€ -> CZK<input type="radio" name="currency" id="eczk" value="czk_eur" > 
     <br><input type="submit" name="submit" value="Odeslat">
     </form>
 <?php 
